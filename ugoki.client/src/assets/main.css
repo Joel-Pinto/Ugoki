@@ -1,0 +1,46 @@
+@import './base.css';
+
+body {
+  background-color: #f8f9fa;
+  margin: 0 auto;
+}
+
+#app {
+  padding: 2rem;
+  font-weight: normal;
+}
+
+.h1 {
+  font-size: 3rem !important;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 2rem !important;
+}
+
+.p {
+  font-size: 1rem;
+  max-width: 80%;
+  line-height: 1.6;
+}
+
+a,
+.green {
+  text-decoration: none;
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  
+}
+
+@media (max-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+}

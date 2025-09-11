@@ -1,0 +1,17 @@
+/ugoki.client/.vscode
+
+/ugoki.client/node_modules
+/ugoki.client/obj
+.editorconfig
+.vs
+
+/Ugoki.Data/obj
+/Ugoki.Data/bin
+
+/Ugoki.Server/obj
+/Ugoki.Server/bin
+/Ugoki.Server/Properties
+/Ugoki.Server/appsettings.Development.json
+/Ugoki.Server/Ugoki.Server.csproj.user
+
+Ugoki.slnLaunch.user

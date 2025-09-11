@@ -1,0 +1,70 @@
+aside {
+    position: fixed;
+    inset: 0 auto 0 0;
+    padding: 1rem;
+    width: var(--sb-width); 
+    
+    background-color: yellow;
+}
+
+nav {
+    height: 100%;
+}
+
+nav ul 
+{
+    list-style: none;
+    display: flex;
+    flex-flow: column;
+    gap: 0.25rem;
+    height: 95%;
+    padding-inline-start: 0px;
+}
+
+
+nav li:last-child {
+    margin-top: auto;
+}
+
+nav a {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.875rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    text-decoration: none;
+    transition: 
+        background-color 0.5s ease-in-out,
+        color 0.5s ease-in-out;
+}
+
+nav a.active,
+nav a:hover,
+nav a:focus-visible {
+    outline: none;
+    color: orange;
+    background-color: --var(--color-background);
+}
+
+nav a span 
+{
+    font-size: 0.875rem;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.sb-expanded nav a span 
+{
+    opacity: 1;
+    visibility: visible;
+}
+
+.sb-expanded aside .bx-chevrons-right {
+    transform: rotate(180deg);
+}
+
+.menu-title{
+    margin-bottom: 0.875rem;
+    text-transform: uppercase;
+}
