@@ -1,7 +1,7 @@
 <style src="@/assets/css/home/home.css"></style>
 
 <template>
-   <aside>
+   <aside v-if="!layoutComponent">
         <h3 class="menu-title">Ugoki</h3>
         <nav>
             <ul >
@@ -41,12 +41,24 @@
 </template>
 
 <script lang="ts">
-    import CircleDashed from '../icons/CircleDashed.vue';
 
-    export default {
-        name: 'sideBar',
-        components: {
-            CircleDashed
+import CircleDashed from '../icons/CircleDashed.vue';
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const showSidebar = computed(() => !route.meta.hideSideBar)
+
+export default {
+    name: 'sideBar',
+    components: {
+        CircleDashed
+    },
+    computed: {
+        layoutComponent() {
+            const hideSideBar = this.$route.meta.hideSideBar;
+            return hideSideBar;
         }
     }
+}
 </script>

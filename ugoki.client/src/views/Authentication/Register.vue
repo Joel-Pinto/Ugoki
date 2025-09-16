@@ -4,9 +4,9 @@
 import { Register } from '../../scripts/Authentication/login.ts';
 
 const register = new Register();
-//console.log(register)
 const hidration = register.hidration;
 console.log(register);
+
 </script>
 
 <template>
@@ -41,23 +41,23 @@ console.log(register);
           <form @submit.prevent="register.formSubmitted" class="login-form">
             <div class="form-group">
               <label for="username">{{ hidration.username }}</label>
-              <input id="username" type="text" v-model="register.form.username" :placeholder="hidration.username" />
+              <input id="username" type="text" v-model="register.form.value.username" :placeholder="hidration.username" />
             </div>
 
             <div class="form-group">
               <label for="email">{{ hidration.email }}</label>
-              <input id="email" type="email" v-model="register.form.email" :placeholder="hidration.emailPlaceholder" />
+              <input id="email" type="email" v-model="register.form.value.email" :placeholder="hidration.emailPlaceholder" />
             </div>
 
             <div class="form-group">
               <label for="repeat-email">{{ hidration.retypeEmail }}</label>
-              <input id="repeat-email" type="email" v-model="register.form.confirmationEmail" :placeholder="hidration.retypeEmail" />
+              <input id="repeat-email" type="email" v-model="register.form.value.confirmationEmail" :placeholder="hidration.retypeEmail" />
             </div>
 
             <div class="form-group">
               <label for="password">{{ hidration.password }}</label>
               <div class="password-input-wrapper">
-                 <input id="password" :type="register.passwordFieldType" v-model="register.form.password" :placeholder="hidration.passwordPlaceholder"/>
+                 <input id="password" :type="register.passwordFieldType.value" v-model="register.form.value.password" :placeholder="hidration.passwordPlaceholder"/>
                  <svg @click="register.togglePasswordVisibility" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
               </div>
             </div>
@@ -65,7 +65,7 @@ console.log(register);
             <div class="form-group">
               <label for="repeat-password">{{ hidration.retypePassword }}</label>
               <div class="password-input-wrapper">
-                 <input id="repeat-password" :type="register.passwordFieldType" v-model="register.form.password" :placeholder="hidration.retypePassword"/>
+                 <input id="repeat-password" :type="register.passwordFieldType" v-model="register.form.value.password" :placeholder="hidration.retypePassword"/>
                  <svg @click="register.togglePasswordVisibility" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
               </div>
             </div>

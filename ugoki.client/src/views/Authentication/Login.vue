@@ -4,7 +4,7 @@
 import { Login } from '../../scripts/Authentication/login.ts';
 
 const login = new Login();
-//console.log(login)
+console.log(login.passwordFieldType.value)
 const hidration = login.hidration;
 </script>
 
@@ -40,13 +40,13 @@ const hidration = login.hidration;
           <form @submit.prevent="login.formSubmitted" class="login-form">
             <div class="form-group">
               <label for="email">{{ hidration.email }}</label>
-              <input id="email" type="email" v-model="login.form.email" :placeholder="hidration.emailPlaceholder" />
+              <input id="email" type="email" v-model="login.form.value.email" :placeholder="hidration.emailPlaceholder" />
             </div>
 
             <div class="form-group">
               <label for="password">{{ hidration.password }}</label>
               <div class="password-input-wrapper">
-                 <input id="password" :type="login.passwordFieldType" v-model="login.form.password" :placeholder="hidration.passwordPlaceholder"/>
+                 <input id="password" :type="login.passwordFieldType.value" v-model="login.form.value.password" :placeholder="hidration.passwordPlaceholder"/>
                  <svg @click="login.togglePasswordVisibility" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
               </div>
             </div>

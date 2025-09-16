@@ -4,14 +4,16 @@ import loginImage from '../../assets/images/login/login_background.png';
 
 export class Login 
 {
+    // variables
     hidration: object;
     loginImage = ref(loginImage);
     passwordFieldType = ref<'password' | 'text'>('password');
     rememberUser = ref(false);
     form = ref({
-            email: "",
-            password: "",
-        });
+        email: "",
+        password: "",
+    });
+    
     
     constructor()
     {
