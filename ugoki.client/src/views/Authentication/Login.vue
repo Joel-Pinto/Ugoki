@@ -29,7 +29,7 @@ const hidration = login.hidration;
       <div class="form-section-wrapper">
         <div class="form-section">
           <div class="logo">
-            <span class="logo-dot"></span> Cogie
+            <span class="logo-dot"></span> UGOKI 
           </div>
 
           <div class="welcome-text">

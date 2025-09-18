@@ -1,32 +1,27 @@
-export function LoginViewHidration() : object
+import type { LoginHidration, RegisterHidration } from "@/scripts/types/typeDefinition.ts";
+
+export function LoginViewHidration() : LoginHidration
 {
     return {
         title: "Welcome Back",
         subtitle: "Enter your email and password to access your account!",
-        
         imageQuote: "A Wise Quote",
         imageMainSubtitle: "You can get everything you want if you work hard, trust the process, and stick to the plan.",
-
         aWiseQuote: "Make today count",
-        
         emailPlaceholder: "email",
         passwordPlaceholder: "password",
-
         email:  "Email",
         password: "Password",
-
         rememberMe: "Remember me",
         signIn: "Sign In",
         forgotPassword: "Forgot Password",
-
         noAccount: "Don't have an account?",
         signUp: "Sign Up",
-
         signInWithGoogle: "Sign In with Google"
     }; 
 };
 
-export function RegisterViewHidration(): object
+export function RegisterViewHidration(): RegisterHidration
 {
     return {
         title: "Glad to see you joining! ",

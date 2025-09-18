@@ -10,23 +10,6 @@ body {
   font-weight: normal;
 }
 
-.h1 {
-  font-size: 3rem !important;
-  font-weight: 600;
-  line-height: 1.2;
-  margin-bottom: 1rem;
-}
-
-h2 {
-  font-size: 2rem !important;
-}
-
-.p {
-  font-size: 1rem;
-  max-width: 80%;
-  line-height: 1.6;
-}
-
 a,
 .green {
   text-decoration: none;

@@ -1,7 +1,6 @@
 import './assets/main.css'
 
 import { createApp } from 'vue'
-import { createRouter, createWebHistory } from 'vue-router'
 import { router } from './scripts/router.ts'
 
 import App from './App.vue'

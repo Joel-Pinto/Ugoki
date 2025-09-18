@@ -1,52 +1,70 @@
-/* color palette from <https://github.com/vuejs/theme> */
 :root {
-  --vt-c-white: #ffffff;
-  --vt-c-white-soft: #f8f8f8;
-  --vt-c-white-mute: #f2f2f2;
+  /* Brand Colors (inspired by your dashboard UI) */
+  --color-primary: #4e60ff;   /* Indigo/Blue */
+  --color-secondary: #ffb200; /* Accent Orange */
+  --color-success: #2ecc71;   /* Green */
+  --color-danger: #e74c3c;    /* Red */
+  --color-warning: #f39c12;   /* Yellow */
+  --color-info: #3498db;      /* Light Blue */
 
-  --vt-c-black: #181818;
-  --vt-c-black-soft: #222222;
-  --vt-c-black-mute: #282828;
+  /* Neutral Palette */
+  --color-white: #ffffff;
+  --color-white-soft: #f8f9fb;
+  --color-white-mute: #eef1f6;
 
-  --vt-c-indigo: #2c3e50;
+  --color-black: #181818;
+  --color-black-soft: #222222;
+  --color-black-mute: #282828;
 
-  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+  /* Backgrounds */
+  --color-background: var(--color-white);
+  --color-background-soft: var(--color-white-soft);
+  --color-background-mute: var(--color-white-mute);
 
-  --vt-c-text-light-1: var(--vt-c-indigo);
-  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-  --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
-}
+  /* Borders */
+  --color-border: #e0e6ed;
+  --color-border-hover: #cdd5df;
 
-/* semantic color variables for this project */
-:root {
-  --color-background: var(--vt-c-white);
-  --color-background-soft: var(--vt-c-white-soft);
-  --color-background-mute: var(--vt-c-white-mute);
+  /* Text Colors */
+  --color-text-heading: #1a1d1f;
+  --color-text-body: #4b4f52;
+  --color-text-muted: #6e7377;
+  --color-text-light: #9da3a8;
 
-  --color-border: var(--vt-c-divider-light-2);
-  --color-border-hover: var(--vt-c-divider-light-1);
+  /* Font Sizes */
+  --font-size-xs: 0.75rem;   /* 12px */
+  --font-size-sm: 0.875rem;  /* 14px */
+  --font-size-md: 1rem;      /* 16px */
+  --font-size-lg: 1.25rem;   /* 20px */
+  --font-size-xl: 1.5rem;    /* 24px */
+  --font-size-2xl: 2rem;     /* 32px */
+  --font-size-3xl: 2.5rem;   /* 40px */
 
-  --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
 
+  /* Section */
   --section-gap: 160px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
+    --color-background: var(--color-black);
+    --color-background-soft: var(--color-black-soft);
+    --color-background-mute: var(--color-black-mute);
 
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
+    --color-border: #3a3f44;
+    --color-border-hover: #4b5258;
 
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
+    --color-text-heading: #f8f9fb;
+    --color-text-body: #d0d3d6;
+    --color-text-muted: #a0a4a8;
+    --color-text-light: #7a7e82;
   }
 }
 
@@ -58,6 +76,14 @@
   font-weight: normal;
 }
 
+h1 {
+  font-size: var(--font-size-2xl);
+}
+
+h2 {
+  font-size: var(--font-size-xl);
+}
+
 body {
   --sb-width: 5rem;
 
@@ -65,7 +91,7 @@ body {
   background: var(--color-background);
   line-height: 1.6;
   font-family: 'Inter', sans-serif;
-  font-size: 20px;
+  font-size: var(--font-size-md);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -73,4 +99,12 @@ body {
 
 body.sb-expanded {
   --sb-width: 12.5rem;
+}
+
+/* Hide the eye icon (password reveal) in Edge/Chromium */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
 }

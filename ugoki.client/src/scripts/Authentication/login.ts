@@ -1,11 +1,11 @@
 import { ref } from 'vue';
 import { LoginViewHidration, RegisterViewHidration } from '../../scripts/Authentication/authenticationHidration.ts';
 import loginImage from '../../assets/images/login/login_background.png';
-
+import type { LoginHidration } from '@/scripts/types/typeDefinition.ts';
 export class Login 
 {
     // variables
-    hidration: object;
+    hidration: LoginHidration;
     loginImage = ref(loginImage);
     passwordFieldType = ref<'password' | 'text'>('password');
     rememberUser = ref(false);
@@ -14,10 +14,9 @@ export class Login
         password: "",
     });
     
-    
     constructor()
     {
-        this.hidration = LoginViewHidration();
+        this.hidration = { ...LoginViewHidration() };
     }
   
     // Placeholder function for form submission
