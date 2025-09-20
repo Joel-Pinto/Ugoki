@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ugoki.Server", "Ugoki.Serve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ugoki.Data", "Ugoki.Data\Ugoki.Data.csproj", "{8BE12D92-5BFF-4D13-AE13-2685C9383D9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ugoki.Application", "Ugoki.Application\Ugoki.Application.csproj", "{2E1787A1-9089-4ED8-AADF-FC93EC51E101}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ugoki.Domain", "Ugoki.Domain\Ugoki.Domain.csproj", "{83797BB1-9BF7-45FF-A735-9DC30094225F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{8BE12D92-5BFF-4D13-AE13-2685C9383D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BE12D92-5BFF-4D13-AE13-2685C9383D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BE12D92-5BFF-4D13-AE13-2685C9383D9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E1787A1-9089-4ED8-AADF-FC93EC51E101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E1787A1-9089-4ED8-AADF-FC93EC51E101}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E1787A1-9089-4ED8-AADF-FC93EC51E101}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E1787A1-9089-4ED8-AADF-FC93EC51E101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83797BB1-9BF7-45FF-A735-9DC30094225F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83797BB1-9BF7-45FF-A735-9DC30094225F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83797BB1-9BF7-45FF-A735-9DC30094225F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83797BB1-9BF7-45FF-A735-9DC30094225F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

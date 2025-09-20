@@ -4,9 +4,16 @@
 /ugoki.client/obj
 .editorconfig
 .vs
+/obj
 
 /Ugoki.Data/obj
 /Ugoki.Data/bin
+
+/Ugoki.Domain/obj
+/Ugoki.Domain/bin
+
+/Ugoki.Application/obj
+/Ugoki.Application/bin
 
 /Ugoki.Server/obj
 /Ugoki.Server/bin
