@@ -2,9 +2,21 @@ using Ugoki.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<UgokiDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+// Activate CORS because the request is coming from a different PORT, the port from which VITE is being ran
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowClient",
+        policy => policy.WithOrigins("http://localhost:64751") // Vue dev server
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin()); // This last option is not good, find a better way to solve the issue
+});
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -13,6 +25,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+app.UseCors("AllowClient");
 
 app.UseDefaultFiles();
 app.MapStaticAssets();

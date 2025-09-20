@@ -1,5 +1,17 @@
+import { ref } from 'vue';
+import api from '@/services/api.ts';
+
 export class Home {
+
     constructor() {}
+
+    async getUsers() {
+        const users = ref<any[]>([]);
+        const response = await api.get('/users');
+        users.value = response.data;
+        
+        return users.value;
+    }
 
     // Placeholder data for stats
     getStats() {

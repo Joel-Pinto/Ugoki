@@ -67,6 +67,15 @@
                 </div>
                 <button class="card-button">Explore More</button>
             </div>
+
+            <div class="workout-card">
+                <h1> Users </h1>
+                <ul>
+                    <li v-for="user in home.getUsers()" :key="user.id">
+                        <p>{{ user }}</p>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
