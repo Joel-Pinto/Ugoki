@@ -1,5 +1,6 @@
 using Ugoki.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddDbContext<UgokiDbContext>(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowClient",
-        policy => policy.WithOrigins("http://localhost:64751") // Vue dev server
+            policy => policy.WithOrigins("http://localhost:64749") // Vue dev server
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowAnyOrigin()); // This last option is not good, find a better way to solve the issue
@@ -35,6 +36,7 @@ app.MapStaticAssets();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();
