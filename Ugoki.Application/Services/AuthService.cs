@@ -80,7 +80,6 @@ namespace Ugoki.Application.Services
             User user = new User();  
 
             user.Email = userRegisterDTO.Email;
-            user.FullName = userRegisterDTO.FullName;
             user.Username = userRegisterDTO.Username;
             user.PasswordHashed = HashPassword(user, userRegisterDTO.Password);
             return user;

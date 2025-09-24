@@ -1,12 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Ugoki.Domain.Entities;
 using Ugoki.Application.Models;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Threading.Tasks;
+using Ugoki.Application.Services;
+using Ugoki.Domain.Entities;
 
 namespace Ugoki.Server.Controllers
 {
@@ -15,10 +10,13 @@ namespace Ugoki.Server.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly UserService _userService;
 
-        public AuthController(IAuthService authService)
+
+        public AuthController(IAuthService authService, UserService userService)
         {
             _authService = authService;
+            _userService = userService;
         }
 
         [HttpPost("register")]
@@ -35,7 +33,6 @@ namespace Ugoki.Server.Controllers
         {
             User user = new User();
             user.Email = "geral.joelpinto@gmail.com";
-            user.FullName = "Joel Pinto";
             user.Id = 1;
             user.Username = "Fockester";
 
@@ -48,6 +45,14 @@ namespace Ugoki.Server.Controllers
             string userToken = _authService.CreateJwtToken();
             // Handle user login
             return Ok(userToken);
+        }
+
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetUserById(string username)
+        {
+            var user = await _userService.GetUserByUsernameAsync(username);
+            if (user == null) return NotFound();
+            return Ok(user);
         }
     }
 }

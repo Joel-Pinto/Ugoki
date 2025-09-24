@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ugoki.Data.Models
+﻿namespace Ugoki.Data.Models
 {
     public class User
     {

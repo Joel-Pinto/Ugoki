@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ugoki.Data.Models;
+using Ugoki.Domain.Entities;
+using Ugoki.Data;
 
 namespace Ugoki.Server.Controllers
 {

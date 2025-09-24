@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Ugoki.Domain.Entities;
 
-namespace Ugoki.Data.Models
+namespace Ugoki.Data
 {
     public class UgokiDbContext : DbContext
     {
@@ -8,6 +9,6 @@ namespace Ugoki.Data.Models
             : base(options)
         {
         }
-        public DbSet<User>? Users { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
