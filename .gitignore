@@ -19,6 +19,7 @@
 /Ugoki.Server/bin
 /Ugoki.Server/Properties
 /Ugoki.Server/appsettings.Development.json
+/Ugoki.Server/appsettings.json
 /Ugoki.Server/Ugoki.Server.csproj.user
 
 Ugoki.slnLaunch.user
