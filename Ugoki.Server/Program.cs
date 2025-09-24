@@ -1,10 +1,16 @@
 using Ugoki.Data.Models;
+using Ugoki.Application.Common;
+
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using Ugoki.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddDbContext<UgokiDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
