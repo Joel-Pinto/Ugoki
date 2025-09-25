@@ -12,7 +12,6 @@ namespace Ugoki.Server.Controllers
         private readonly IAuthService _authService;
         private readonly UserService _userService;
 
-
         public AuthController(IAuthService authService, UserService userService)
         {
             _authService = authService;
@@ -22,37 +21,19 @@ namespace Ugoki.Server.Controllers
         [HttpPost("register")]
         public ActionResult<User> Register(UserRegisterDTO userRegisterDTO)
         {
-            User newUser = _authService.RegisterUser(userRegisterDTO);
-            
+            //Call Apllication for User Registration 
+
             // Handle user registration
-            return Ok(newUser);
+            return Ok($"User {userRegisterDTO.Username}, registered with Success.");
         }
 
         [HttpPost("login")]
         public ActionResult<string> Login(UserLoginDTO userLoginDTO)
         {
-            User user = new User();
-            user.Email = "geral.joelpinto@gmail.com";
-            user.Id = 1;
-            user.Username = "Fockester";
+            //Call Application for User Login
 
-            if(!_authService.ValidateUserLogin(userLoginDTO))
-            {
-                return BadRequest("Password or Username is incorrect..");
-            }
-            
-            // I Need to create and return a JWT Token
-            string userToken = _authService.CreateJwtToken();
             // Handle user login
-            return Ok(userToken);
-        }
-
-        [HttpGet("{username}")]
-        public async Task<IActionResult> GetUserById(string username)
-        {
-            var user = await _userService.GetUserByUsernameAsync(username);
-            if (user == null) return NotFound();
-            return Ok(user);
+            return Ok($"User {userLoginDTO.Username}, logged in with success.");
         }
     }
 }

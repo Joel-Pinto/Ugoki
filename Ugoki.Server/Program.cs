@@ -14,10 +14,15 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("AppSettings"));
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-builder.Services.AddScoped<UserService>();
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
+// Dependency Injections have a lifecycle of an HTTP request, it's also scoped for that same request. It does not share with other requests.
+builder.Services.AddScoped<IAuthService, AuthService>();        // Dependency Injection for the Auth Service
+builder.Services.AddScoped<IUserRepository, UserRepository>();  // Dependency Injection for the User Repository
+builder.Services.AddScoped<UserService>();                      // Dependency Injection for the User 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();          // Dependency Injection for the Unit of work, which takes care of making sure the saves to the DB happen securely and data is not compromised. 
 
 builder.Services.AddDbContext<UgokiDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
