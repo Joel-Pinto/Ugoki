@@ -19,9 +19,10 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
 // Dependency Injections have a lifecycle of an HTTP request, it's also scoped for that same request. It does not share with other requests.
-builder.Services.AddScoped<IAuthService, AuthService>();        // Dependency Injection for the Auth Service
+builder.Services.AddScoped<IAuthService, AuthRepositorie>();        // Dependency Injection for the Auth Service
 builder.Services.AddScoped<IUserRepository, UserRepository>();  // Dependency Injection for the User Repository
 builder.Services.AddScoped<UserService>();                      // Dependency Injection for the User 
+builder.Services.AddScoped<AuthRepositorie>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();          // Dependency Injection for the Unit of work, which takes care of making sure the saves to the DB happen securely and data is not compromised. 
 
 builder.Services.AddDbContext<UgokiDbContext>(options =>

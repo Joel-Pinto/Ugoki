@@ -7,5 +7,6 @@ namespace Ugoki.Application.Interfaces
     {
         Task<User?> GetUserByUsernameAsync(string username);
         Task<bool> SaveUpdateJwtToken(string token, string username);
+        Task<bool> DeleteUser(int id);
     }
 }

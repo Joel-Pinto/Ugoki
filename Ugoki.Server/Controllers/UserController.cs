@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Ugoki.Application.Models;
 using Ugoki.Domain.Entities;
-using Ugoki.Data;
 
 namespace Ugoki.Server.Controllers
 {
@@ -8,28 +8,20 @@ namespace Ugoki.Server.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly UgokiDbContext _context;
-
-        public UserController(UgokiDbContext context)
+        private readonly IAuthService _authService;
+        public UserController(IAuthService authService)
         {
-            _context = context;
+            _authService = authService;
         }
-
-        [HttpGet("users")]
+        [HttpGet("list_users")]
         public IActionResult GetUsers()
         {
-            var users = _context.Users?.ToList();
-            return Ok(users);
+            return Ok();
         }
-
-        [HttpPost("register")]
-        public IActionResult Register([FromBody] User user)
+        [HttpPost("delete_user")]
+        public IActionResult DeleteUser([FromBody] User user)
         {
-            _context.Users?.Add(user);
-            _context.SaveChanges();
-
-            return Ok(user);
+            return Ok();
         }
-
     }
 }

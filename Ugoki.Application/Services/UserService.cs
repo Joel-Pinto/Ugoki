@@ -20,5 +20,9 @@ namespace Ugoki.Application.Services
         {
             return _userRepository.SaveUpdateJwtToken(jwtToken, username);
         }
+        public Task<bool> DeleteUser(int id)
+        {
+            return _userRepository.DeleteUser(id);
+        }
     }
 }

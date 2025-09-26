@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Ugoki.Application.Models;
-using Ugoki.Application.Services;
-using Ugoki.Domain.Entities;
 
 namespace Ugoki.Server.Controllers
 {
@@ -10,30 +8,19 @@ namespace Ugoki.Server.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly UserService _userService;
-
-        public AuthController(IAuthService authService, UserService userService)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
-            _userService = userService;
         }
-
         [HttpPost("register")]
-        public ActionResult<User> Register(UserRegisterDTO userRegisterDTO)
+        public IActionResult Register([FromBody] UserRegisterDTO user)
         {
-            //Call Apllication for User Registration 
-
-            // Handle user registration
-            return Ok($"User {userRegisterDTO.Username}, registered with Success.");
+            return Ok(_authService.Register(user));
         }
-
         [HttpPost("login")]
-        public ActionResult<string> Login(UserLoginDTO userLoginDTO)
+        public IActionResult Login([FromBody] UserLoginDTO user)
         {
-            //Call Application for User Login
-
-            // Handle user login
-            return Ok($"User {userLoginDTO.Username}, logged in with success.");
+            return Ok(_authService.Login(user));
         }
     }
 }

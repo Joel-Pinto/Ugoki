@@ -1,20 +1,11 @@
-using Ugoki.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
 using Ugoki.Application.Models;
-using Ugoki.Application.Common;
-
-using System.Security.Claims;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Options;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace Ugoki.Application.Services
 {
-    public class AuthService : IAuthService
+    public class AuthService
     {
-        private readonly AuthService _authService;
-        public AuthService(AuthService authService)
+        private readonly IAuthService _authService;
+        public AuthService(IAuthService authService)
         {
             _authService = authService;
         }

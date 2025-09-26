@@ -53,6 +53,26 @@ namespace Ugoki.Data.Repositories
             }
             return true;
         }
+        public async Task<bool> DeleteUser(int id)
+        {
+            await _unitOfWork.BeginTransactionAsync();
+            try
+            {
+                var user = await _context.Users.FindAsync(id);
+                if (user == null)
+                    throw new Exception("User does not exist");
 
+                _context.Users.Remove(user);
+
+                await _unitOfWork.CommitAsync();
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackAsync();
+                _logger.LogError(ex, "Error deleting the User with the id {id}", id);
+                return false;
+            }
+            return true;
+        }
     }
 }
