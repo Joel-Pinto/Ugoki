@@ -1,5 +1,3 @@
-using System.Transactions;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
 using Ugoki.Application.Interfaces;
 

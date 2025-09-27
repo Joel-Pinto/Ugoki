@@ -1,3 +1,4 @@
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Ugoki.Application.Models;
 
@@ -8,19 +9,23 @@ namespace Ugoki.Server.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+
         public AuthController(IAuthService authService)
         {
             _authService = authService;
         }
         [HttpPost("register")]
-        public IActionResult Register([FromBody] UserRegisterDTO user)
+        public async Task<IActionResult> Register([FromBody] UserRegisterDTO user)
         {
-            return Ok(_authService.Register(user));
+            var success = await _authService.Register(user);
+            return success ? Ok(new { success = true }) : BadRequest("Registration failed.");
+
         }
         [HttpPost("login")]
-        public IActionResult Login([FromBody] UserLoginDTO user)
+        public async Task<IActionResult> Login([FromBody] UserLoginDTO user)
         {
-            return Ok(_authService.Login(user));
+            var success = await _authService.Login(user);
+            return success != null ? Ok(new { success = true }) : BadRequest("Login failed.");
         }
     }
 }

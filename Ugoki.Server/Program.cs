@@ -1,22 +1,40 @@
 
 using Ugoki.Data;
-using Ugoki.Application.Common;
+using Ugoki.Data.Repositories;
 using Ugoki.Application.Services;
-
+using Ugoki.Application.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 using Scalar.AspNetCore;
-using Ugoki.Application.Interfaces;
-using Ugoki.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("AppSettings"));
-
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+
+// In here we add Authorization and Authentication services to the application
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidAudience = builder.Configuration["AppSettings:Audience"],
+            ValidIssuer = builder.Configuration["AppSettings:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Secret"] ?? string.Empty)),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+        };
+    });
 
 // Dependency Injections have a lifecycle of an HTTP request, it's also scoped for that same request. It does not share with other requests.
 builder.Services.AddScoped<IAuthService, AuthRepositorie>();        // Dependency Injection for the Auth Service
@@ -40,6 +58,7 @@ builder.Services.AddCors(options =>
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddAuthentication().AddBearerToken();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -60,7 +79,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Must be in this order!
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 

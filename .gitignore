@@ -22,4 +22,13 @@
 /Ugoki.Server/appsettings.json
 /Ugoki.Server/Ugoki.Server.csproj.user
 
+/Ugoki.IdentityApi/obj
+/Ugoki.IdentityApi/bin
+/Ugoki.IdentityApi/Properties
+/Ugoki.IdentityApi/appsettings.Development.json
+/Ugoki.IdentityApi/appsettings.json
+/Ugoki.IdentityApi/Ugoki.IdentityApi.csproj.user
+/Ugoki.IdentityApi/Ugoki.IdentityApi.http
+
+
 Ugoki.slnLaunch.user

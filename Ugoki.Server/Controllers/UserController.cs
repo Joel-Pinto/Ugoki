@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Ugoki.Application.Models;
 using Ugoki.Domain.Entities;
 
@@ -13,6 +14,8 @@ namespace Ugoki.Server.Controllers
         {
             _authService = authService;
         }
+
+        [Authorize]
         [HttpGet("list_users")]
         public IActionResult GetUsers()
         {

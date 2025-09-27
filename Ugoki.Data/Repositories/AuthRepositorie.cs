@@ -14,15 +14,18 @@ namespace Ugoki.Data.Repositories
         private readonly UgokiDbContext _context;
         private readonly ILogger<UserService> _logger;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly Helper _helper = new(); 
+        private readonly IUserRepository _userRepository;
+        private readonly Helper _helper = new();
         public AuthRepositorie(
             UgokiDbContext context,
             ILogger<UserService> logger,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IUserRepository userRepository)
         {
             _context = context;
             _logger = logger;
             _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
         }
         public async Task<bool> Register(UserRegisterDTO userRegisterDTO)
         {
@@ -50,7 +53,7 @@ namespace Ugoki.Data.Repositories
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync();
-                _logger.LogError(ex, "There was an issue regestring the user {Username}", newUser.Username);
+                _logger.LogError("There was an issue regestring the user {Username}: {Message} \n {StackTrace}", newUser.Username, ex.Message, ex.StackTrace);
                 return false;
             }
 
@@ -63,6 +66,9 @@ namespace Ugoki.Data.Repositories
 
             if (user  == null)
                 return null;
+
+            if (user.JwtToken == "")
+                await _userRepository.CreateOrUpdateJwtToken(user.Username);
 
             return user.JwtToken;
         }
