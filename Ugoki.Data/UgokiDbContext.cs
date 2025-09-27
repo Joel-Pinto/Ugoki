@@ -10,5 +10,6 @@ namespace Ugoki.Data
         {
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

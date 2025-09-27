@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ugoki.Data;
 
@@ -11,9 +12,11 @@ using Ugoki.Data;
 namespace Ugoki.Data.Migrations
 {
     [DbContext(typeof(UgokiDbContext))]
-    partial class UgokiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250927182402_RefreshTokensTable")]
+    partial class RefreshTokensTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -28,18 +28,14 @@ namespace Ugoki.Data.Repositories
         public async Task<bool> SaveUpdateJwtToken(string username)
         {
             await _unitOfWork.BeginTransactionAsync();
-            string token = "";
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Username == username);
 
             if (user == null)
                 return false;
 
-            if (user.JwtToken == "")
-                //token = _userService.CreateJwtToken(user);
             try
             {
-                user.JwtToken = token;
                 _context.Users.Update(user);
                 await _unitOfWork.CommitAsync();
 

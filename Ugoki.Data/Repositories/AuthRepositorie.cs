@@ -67,10 +67,8 @@ namespace Ugoki.Data.Repositories
             if (user  == null)
                 return null;
 
-            if (user.JwtToken == "")
-                await _userRepository.CreateOrUpdateJwtToken(user.Username);
 
-            return user.JwtToken;
+            return "";
         }
     }
 }

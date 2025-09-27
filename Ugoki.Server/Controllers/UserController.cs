@@ -21,6 +21,7 @@ namespace Ugoki.Server.Controllers
         {
             return Ok();
         }
+
         [HttpPost("delete_user")]
         public IActionResult DeleteUser([FromBody] User user)
         {

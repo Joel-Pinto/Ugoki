@@ -25,14 +25,6 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
-app.MapPost("/request_token", ([FromBody]UserLoginDTO request, TokenGenerationService tokenService) =>
-{
-    return new
-    {
-        access_token = tokenService.GenerateToken(request.Username),
-    };
-});
-
 app.UseAuthorization();
 
 app.MapControllers();
