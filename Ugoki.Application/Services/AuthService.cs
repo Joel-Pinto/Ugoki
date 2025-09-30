@@ -1,21 +1,24 @@
 using Ugoki.Application.Models;
+using Ugoki.Application.Interfaces;
 
 namespace Ugoki.Application.Services
 {
     public class AuthService
     {
         private readonly IAuthService _authService;
-        public AuthService(IAuthService authService)
+        private readonly ITokenGenServices _tokenGenService;
+        public AuthService(IAuthService authService, ITokenGenServices tokenGenServices)
         {
             _authService = authService;
+            _tokenGenService = tokenGenServices;
         }
-        public async Task<string?> Login(UserLoginDTO userLoginDto)
+        public async Task<string?> LoginAsync(UserLoginDTO userLoginDto)
         {
-            return await _authService.Login(userLoginDto);
+            return await _authService.LoginAsync(userLoginDto);
         }
-        public Task<bool> Register(UserRegisterDTO userRegisterDTO)
+        public async Task<bool> Register(UserRegisterDTO userRegisterDTO)
         {
-            return _authService.Register(userRegisterDTO); 
+            return await _authService.RegisterAsync(userRegisterDTO);
         }
     }
 }

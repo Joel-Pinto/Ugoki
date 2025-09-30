@@ -1,14 +1,13 @@
 
-using Ugoki.Data;
-using Ugoki.Data.Repositories;
-using Ugoki.Application.Services;
-using Ugoki.Application.Interfaces;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-
 using Scalar.AspNetCore;
+using Ugoki.Application.Common;
+using Ugoki.Application.Interfaces;
+using Ugoki.Application.Services;
+using Ugoki.Data;
+using Ugoki.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,12 +35,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("AppSettings")); 
+Console.WriteLine(builder.Configuration["AppSettings:Token"]);
+
 // Dependency Injections have a lifecycle of an HTTP request, it's also scoped for that same request. It does not share with other requests.
-builder.Services.AddScoped<IAuthService, AuthRepositorie>();        // Dependency Injection for the Auth Service
-builder.Services.AddScoped<IUserRepository, UserRepository>();  // Dependency Injection for the User Repository
-builder.Services.AddScoped<UserService>();                      // Dependency Injection for the User 
+builder.Services.AddScoped<IAuthService, AuthRepositorie>();            // Dependency Injection for the Auth Service
+builder.Services.AddScoped<IUserRepository, UserRepository>();          // Dependency Injection for the User Repository
+builder.Services.AddScoped<ITokenGenServices, TokenGenerationService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();                  // Dependency Injection for the Unit of work, which takes care of making sure the saves to the DB happen securely and data is not compromised.
+builder.Services.AddScoped<UserService>();                              // Dependency Injection for the User 
 builder.Services.AddScoped<AuthRepositorie>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();          // Dependency Injection for the Unit of work, which takes care of making sure the saves to the DB happen securely and data is not compromised. 
 
 builder.Services.AddDbContext<UgokiDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -58,7 +61,6 @@ builder.Services.AddCors(options =>
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddAuthentication().AddBearerToken();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

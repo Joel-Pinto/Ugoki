@@ -10,5 +10,14 @@ namespace Ugoki.Application.Helper
             return new PasswordHasher<User>()
                 .HashPassword(user, password);
         }
+        public bool ValidatePassword(User user, string passwordToConfirm, string userStoredPassword)
+        {
+            PasswordHasher<User> passwordHasher = new();
+            var result = passwordHasher.VerifyHashedPassword(user, userStoredPassword, passwordToConfirm);
+            
+            if (result == PasswordVerificationResult.Failed)
+                return false;
+            return true;
+        }
     }
-} 
+}

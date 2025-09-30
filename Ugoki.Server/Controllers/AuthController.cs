@@ -1,4 +1,3 @@
-using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Ugoki.Application.Models;
 
@@ -17,15 +16,33 @@ namespace Ugoki.Server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDTO user)
         {
-            var success = await _authService.Register(user);
-            return success ? Ok(new { success = true }) : BadRequest("Registration failed.");
+            var success = await _authService.RegisterAsync(user);
+            return success ? 
+                Ok(new { 
+                    success = true,
+                    message = "User registered with success"
+                }) : 
+                BadRequest(new
+                {
+                    success = false,
+                    message = "Registration failed. User already registere"
+                });
 
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDTO user)
         {
-            var success = await _authService.Login(user);
-            return success != null ? Ok(new { success = true }) : BadRequest("Login failed.");
+            var success = await _authService.LoginAsync(user);
+            return success != null ? 
+                Ok(new { 
+                    success = true,
+                    message = "Login Successfull",
+                    token = success
+                }) : 
+                BadRequest(new {
+                    success = false,
+                    message = "Login failed. Password or Username is incorrect" 
+                });
         }
     }
 }

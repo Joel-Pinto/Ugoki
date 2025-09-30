@@ -2,6 +2,6 @@ using Ugoki.Domain.Entities;
 using Ugoki.Application.Models;
 public interface IAuthService
 {
-    Task<bool> Register(UserRegisterDTO userRegisterDTO);
-    Task<string?> Login(UserLoginDTO userLoginDTO);
+    Task<bool> RegisterAsync(UserRegisterDTO userRegisterDTO);
+    Task<string?> LoginAsync(UserLoginDTO userLoginDTO);
 }

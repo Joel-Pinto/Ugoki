@@ -6,28 +6,32 @@ using Ugoki.Domain.Entities;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Humanizer;
 
 namespace Ugoki.Data.Repositories
 {
     public class AuthRepositorie : IAuthService
     {
         private readonly UgokiDbContext _context;
-        private readonly ILogger<UserService> _logger;
+        private readonly ILogger<AuthRepositorie> _logger;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
+        private readonly ITokenGenServices _tokenGenService;
         private readonly Helper _helper = new();
         public AuthRepositorie(
             UgokiDbContext context,
-            ILogger<UserService> logger,
+            ILogger<AuthRepositorie> logger,
             IUnitOfWork unitOfWork,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            ITokenGenServices tokenGenServices)
         {
             _context = context;
             _logger = logger;
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
+            _tokenGenService = tokenGenServices;
         }
-        public async Task<bool> Register(UserRegisterDTO userRegisterDTO)
+        public async Task<bool> RegisterAsync(UserRegisterDTO userRegisterDTO)
         {
             await _unitOfWork.BeginTransactionAsync();
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userRegisterDTO.Username);
@@ -60,15 +64,37 @@ namespace Ugoki.Data.Repositories
             return true;
         }
 
-        public async Task<string?> Login(UserLoginDTO userLoginDTO)
+        public async Task<string?> LoginAsync(UserLoginDTO userLoginDTO)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userLoginDTO.Username);
+            await _unitOfWork.BeginTransactionAsync();
 
-            if (user  == null)
+            try
+            {
+
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userLoginDTO.Username);
+
+                if (user == null)
+                    return null;
+
+                if (!_helper.ValidatePassword(user, userLoginDTO.Password, user.PasswordHashed))
+                    return null;
+
+                var token = _tokenGenService.GenerateToken(user.Id, user.Username);
+                var refreshToken = _tokenGenService.GenerateSecureRefreshToken();
+                refreshToken.UserId = user.Id;
+
+                _context.RefreshTokens.Add(refreshToken);
+
+                await _unitOfWork.CommitAsync();
+                return token;
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackAsync();
+
+                _logger.LogError("There was an issue with the Login Auth method {Username}: {Message} \n {StackTrace}", userLoginDTO.Username, ex.Message, ex.StackTrace);
                 return null;
-
-
-            return "";
+            }
         }
     }
 }
