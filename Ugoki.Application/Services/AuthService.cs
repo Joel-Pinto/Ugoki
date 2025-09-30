@@ -1,5 +1,6 @@
 using Ugoki.Application.Models;
 using Ugoki.Application.Interfaces;
+using Ugoki.Application.Common;
 
 namespace Ugoki.Application.Services
 {
@@ -12,7 +13,7 @@ namespace Ugoki.Application.Services
             _authService = authService;
             _tokenGenService = tokenGenServices;
         }
-        public async Task<string?> LoginAsync(UserLoginDTO userLoginDto)
+        public async Task<LoginResponse?> LoginAsync(UserLoginDTO userLoginDto)
         {
             return await _authService.LoginAsync(userLoginDto);
         }

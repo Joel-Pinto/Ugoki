@@ -34,10 +34,13 @@ namespace Ugoki.Server.Controllers
         {
             var success = await _authService.LoginAsync(user);
             return success != null ? 
-                Ok(new { 
+                Ok(new
+                {
                     success = true,
                     message = "Login Successfull",
-                    token = success
+                    token = success.Token,
+                    refreshToken = success.RefreshToken,
+                    expiresIn = success.ExpiresMinutes
                 }) : 
                 BadRequest(new {
                     success = false,

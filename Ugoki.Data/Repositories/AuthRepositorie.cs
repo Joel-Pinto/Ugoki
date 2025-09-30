@@ -1,12 +1,11 @@
 using Ugoki.Application.Interfaces;
 using Ugoki.Application.Helper;
-using Ugoki.Application.Services;
+using Ugoki.Application.Common;
 using Ugoki.Application.Models;
 using Ugoki.Domain.Entities;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using Humanizer;
 
 namespace Ugoki.Data.Repositories
 {
@@ -64,7 +63,7 @@ namespace Ugoki.Data.Repositories
             return true;
         }
 
-        public async Task<string?> LoginAsync(UserLoginDTO userLoginDTO)
+        public async Task<LoginResponse?> LoginAsync(UserLoginDTO userLoginDTO)
         {
             await _unitOfWork.BeginTransactionAsync();
 
@@ -75,23 +74,43 @@ namespace Ugoki.Data.Repositories
 
                 if (user == null)
                     return null;
+                
+                
+                RefreshToken? refreshToken = await _context.RefreshTokens
+                    .Where(rt => rt.UserId == user.Id && rt.RevokedAt == null)
+                    .FirstOrDefaultAsync();
+
+
+                if (refreshToken == null || refreshToken.RevokedAt != null)
+                {
+                    refreshToken = _tokenGenService.GenerateSecureRefreshToken();
+                    refreshToken.UserId = user.Id;
+                    _context.RefreshTokens.Add(refreshToken);
+                }
+                else if (DateTime.Compare(DateTime.UtcNow, refreshToken.ExpiresAt) > 0)
+                {
+                    refreshToken = _tokenGenService.GenerateSecureRefreshToken();
+                    refreshToken.UserId = user.Id;
+                    _context.RefreshTokens.Update(refreshToken);
+                }
 
                 if (!_helper.ValidatePassword(user, userLoginDTO.Password, user.PasswordHashed))
                     return null;
 
                 var token = _tokenGenService.GenerateToken(user.Id, user.Username);
-                var refreshToken = _tokenGenService.GenerateSecureRefreshToken();
-                refreshToken.UserId = user.Id;
-
-                _context.RefreshTokens.Add(refreshToken);
 
                 await _unitOfWork.CommitAsync();
-                return token;
+
+                return new LoginResponse
+                {
+                    Token = token,
+                    RefreshToken = refreshToken.Token,
+                    ExpiresMinutes = DateTime.UtcNow.Subtract(refreshToken.ExpiresAt).TotalSeconds
+                };
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync();
-
                 _logger.LogError("There was an issue with the Login Auth method {Username}: {Message} \n {StackTrace}", userLoginDTO.Username, ex.Message, ex.StackTrace);
                 return null;
             }
