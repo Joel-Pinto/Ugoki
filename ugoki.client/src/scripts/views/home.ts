@@ -1,6 +1,6 @@
 // scripts/home/useHome.ts
 import { ref, onMounted } from "vue";
-import api from "@/services/api";
+import api from "@/services/apiService";
 
 export function home() {
     const users = ref<any[]>([]);
@@ -8,8 +8,6 @@ export function home() {
 
     async function getUsers() {
         try {
-            const response = await api.get("/users");
-            users.value = response.data;
         } finally {
             isLoading.value = false;
         }

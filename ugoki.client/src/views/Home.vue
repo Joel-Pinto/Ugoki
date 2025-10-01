@@ -83,6 +83,6 @@
 </template>
 
 <script lang="ts" setup>
-    import { home } from '../scripts/home/home.ts';
+    import { home } from '../scripts/views/home.ts';
     const homeInstance = home();
 </script>

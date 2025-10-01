@@ -20,12 +20,14 @@ namespace Ugoki.Server.Controllers
             return success ? 
                 Ok(new { 
                     success = true,
-                    message = "User registered with success"
+                    data = new { },
+                    info = "User registered with success"
                 }) : 
                 BadRequest(new
                 {
                     success = false,
-                    message = "Registration failed. User already registere"
+                    data = new { },
+                    info = "Registration failed. User already registere"
                 });
 
         }
@@ -37,10 +39,12 @@ namespace Ugoki.Server.Controllers
                 Ok(new
                 {
                     success = true,
-                    message = "Login Successfull",
-                    token = success.Token,
-                    refreshToken = success.RefreshToken,
-                    expiresIn = success.ExpiresMinutes
+                    data = new {
+                        token = success.Token,
+                        refreshToken = success.RefreshToken,
+                        expiresIn = success.ExpiresMinutes
+                    },
+                    info = "Login Successfull",
                 }) : 
                 BadRequest(new {
                     success = false,

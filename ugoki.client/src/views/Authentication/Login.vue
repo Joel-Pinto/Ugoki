@@ -1,10 +1,9 @@
 <style src="../../assets/css/authentication/login.css" scoped></style>
 
 <script lang="ts" setup>
-import { Login } from '../../scripts/Authentication/login.ts';
+import { Login } from '../../scripts/ViewHidration/login.ts';
 
 const login = new Login();
-console.log(login.passwordFieldType.value)
 const hidration = login.hidration;
 </script>
 
