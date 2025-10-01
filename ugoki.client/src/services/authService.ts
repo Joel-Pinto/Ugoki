@@ -1,5 +1,5 @@
-import apiService from "@/services/apiService";
-import type {  ApiResponse, LoginResponse, UserRegisterDTO, RegisterResponse } from "@/types";
+import {apiRegister, api} from "@/services/apiService";
+import type {  ApiResponse, UserLoginDTO, UserRegisterDTO } from "@/types";
 
 // auth.ts
 let accessToken: string | null = null;
@@ -18,25 +18,18 @@ export function clearAccessToken() {
     accessToken = null;
 }
 
-export async function LoginAsync(username: string, password: string) {
-    const result = await apiService.post<ApiResponse<LoginResponse>>("/auth/login", {
-        username: username,
-        password: password,
-    });
+export async function LoginAsync(UserLoginDTO: UserLoginDTO): Promise<ApiResponse> {
+    const result = await api.post<ApiResponse>("/Auth/login", UserLoginDTO);
 
     if (result.data.success) {
         setAccessToken(result.data.content.token, result.data.content.expiresIn);
+        // Redirect to the front page
     }
+    return result.data;
 }
 
-export async function RegisterAsync(UserRegisterDTO: UserRegisterDTO) : Promise<ApiResponse<RegisterResponse> | undefined>  
+export async function RegisterAsync(UserRegisterDTO: UserRegisterDTO) : Promise<ApiResponse>  
 {
-  const result = await apiService.post<ApiResponse<RegisterResponse>>("/auth/register", {
-    data: UserRegisterDTO
-  });
-
-  if(result.data.success) {
-    return result.data;
-  }
-  return undefined;
+  const result = await apiRegister.post<ApiResponse>("/Auth/register", UserRegisterDTO);
+  return result.data;
 }

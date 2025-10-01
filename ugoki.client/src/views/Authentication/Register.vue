@@ -1,7 +1,7 @@
 <style src="../../assets/css/authentication/login.css" scoped></style>
 
 <script lang="ts" setup>
-import { Register } from '../../scripts/ViewHidration/login.ts';
+import { Register } from '@/scripts/views/register.ts';
 
 const register = new Register();
 const hidration = register.hidration;
@@ -64,7 +64,7 @@ const hidration = register.hidration;
             <div class="form-group">
               <label for="repeat-password">{{ hidration.retypePassword }}</label>
               <div class="password-input-wrapper">
-                 <input id="repeat-password" :type="register.passwordFieldType" v-model="register.form.value.confirmationPassword" :placeholder="hidration.retypePassword"/>
+                 <input id="repeat-password" :type="register.repeatPasswordFieldType.value" v-model="register.form.value.confirmationPassword" :placeholder="hidration.retypePassword"/>
                  <svg @click="register.togglePasswordVisibility" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
               </div>
             </div>

@@ -34,8 +34,9 @@ namespace Ugoki.Data.Repositories
         {
             await _unitOfWork.BeginTransactionAsync();
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userRegisterDTO.Username);
+            var emailVerification = await _context.Users.FirstOrDefaultAsync(u => u.Email == userRegisterDTO.Email);
 
-            if (user != null)
+            if (user != null || emailVerification != null)
                 return false;
 
             User newUser = new User

@@ -1,4 +1,4 @@
-import type { LoginHidration, RegisterHidration } from "@/scripts/types/typeDefinition.ts";
+import type { LoginHidration, RegisterHidration } from "@/types/hidration";
 
 export function LoginViewHidration() : LoginHidration
 {

@@ -1,7 +1,7 @@
 <style src="../../assets/css/authentication/login.css" scoped></style>
 
 <script lang="ts" setup>
-import { Login } from '../../scripts/ViewHidration/login.ts';
+import { Login } from '@/scripts/views/login.ts';
 
 const login = new Login();
 const hidration = login.hidration;

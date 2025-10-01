@@ -1,6 +1,8 @@
+import type { LoginResponse } from "./auth";
+
 // types/api.ts
-export interface ApiResponse<T> {
+export interface ApiResponse {
     success: boolean;
-    content: T;
+    content: LoginResponse;
     error?: string;
 }

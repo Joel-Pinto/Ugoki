@@ -13,6 +13,7 @@ namespace Ugoki.Server.Controllers
         {
             _authService = authService;
         }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDTO user)
         {
@@ -31,6 +32,7 @@ namespace Ugoki.Server.Controllers
                 });
 
         }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDTO user)
         {
