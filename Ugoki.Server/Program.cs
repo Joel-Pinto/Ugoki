@@ -53,10 +53,9 @@ builder.Services.AddDbContext<UgokiDbContext>(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowClient",
-            policy => policy.WithOrigins("http://localhost:64749") // Vue dev server
+            policy => policy.WithOrigins("https://localhost:64749") // Vue dev server
                         .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowAnyOrigin()); // This last option is not good, find a better way to solve the issue
+                        .AllowAnyMethod()); // This last option is not good, find a better way to solve the issue
 });
 
 // Add services to the container.

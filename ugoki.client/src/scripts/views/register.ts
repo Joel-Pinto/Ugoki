@@ -14,6 +14,7 @@ export class Register {
     loginImage = ref(loginImage);
     passwordFieldType = ref<"password" | "text">("password");
     repeatPasswordFieldType = ref<"password" | "text">("password");
+    errorMessage = ref(""); 
 
     form = ref({
         email: "",
@@ -30,16 +31,14 @@ export class Register {
             this.repeatPasswordFieldType.value === "password" ? "text" : "password";
     }
 
-    async formSubmitted(): Promise<ApiResponse | undefined> {
+    async formSubmitted(): Promise<undefined> {
         try {
             if (this.form.value.password !== this.form.value.confirmationPassword || 
                 this.form.value.email !== this.form.value.confirmationEmail) {
                 
-                var newResponse: ApiResponse = new Object() as ApiResponse;
-                newResponse.success = false;
-                newResponse.error = "The passwords inserted do not match";
+                this.errorMessage.value = "The passwords inserted do not match";
 
-                return newResponse;
+                return;
             }
 
             const userData: UserRegisterDTO = {
@@ -48,21 +47,21 @@ export class Register {
                 username: this.form.value.username,
             };
 
+            this.errorMessage.value = "";
             const registrationResult = await RegisterAsync(userData);
 
             if(!registrationResult.success) {
                 // TODO: this was an error, we have the message in registrationResult.error
                 // See how to handle it and show it to the user
-                return registrationResult;
+                this.errorMessage.value = registrationResult.info;
+                return;
             }
 
             const navigation = new Navigation("register");
             navigation.navigateTo("login");
-            
-            return registrationResult;
         } catch (err) {
             console.error("Registration failed", err);
-            return undefined;
+            return;
         }
     }
 }

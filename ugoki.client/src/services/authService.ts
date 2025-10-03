@@ -1,21 +1,18 @@
-import {apiRegister, api} from "@/services/apiService";
+import { api } from "@/services/apiService";
 import type {  ApiResponse, UserLoginDTO, UserRegisterDTO } from "@/types";
 
-// auth.ts
-let accessToken: string | null = null;
-let expiresIn: number | null = null;
-
 export function setAccessToken(token: string, expiresIn: number) {
-    accessToken = token;
-    expiresIn = expiresIn;
+    localStorage.setItem("jwt", token);
+    localStorage.setItem("jwt_expiresIn", expiresIn.toString());
 }
 
 export function getAccessToken(): string | null {
-    return accessToken;
+    return localStorage.getItem("jwt");
 }
 
 export function clearAccessToken() {
-    accessToken = null;
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("jwt_expiresIn");
 }
 
 export async function LoginAsync(UserLoginDTO: UserLoginDTO): Promise<ApiResponse> {
@@ -30,6 +27,6 @@ export async function LoginAsync(UserLoginDTO: UserLoginDTO): Promise<ApiRespons
 
 export async function RegisterAsync(UserRegisterDTO: UserRegisterDTO) : Promise<ApiResponse>  
 {
-  const result = await apiRegister.post<ApiResponse>("/Auth/register", UserRegisterDTO);
+  const result = await api.post<ApiResponse>("/Auth/register", UserRegisterDTO);
   return result.data;
 }

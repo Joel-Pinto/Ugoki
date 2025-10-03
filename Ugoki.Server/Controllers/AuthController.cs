@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ugoki.Application.Models;
 
@@ -14,44 +15,35 @@ namespace Ugoki.Server.Controllers
             _authService = authService;
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDTO user)
         {
-            var success = await _authService.RegisterAsync(user);
-            return success ? 
-                Ok(new { 
-                    success = true,
-                    data = new { },
-                    info = "User registered with success"
-                }) : 
-                BadRequest(new
-                {
-                    success = false,
-                    data = new { },
-                    info = "Registration failed. User already registere"
-                });
-
+            var response = await _authService.RegisterAsync(user);
+            return Ok(new
+            {
+                success = response.Success,
+                data = new { },
+                info = response.Info
+            }); 
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDTO user)
         {
-            var success = await _authService.LoginAsync(user);
-            return success != null ? 
-                Ok(new
+            var response = await _authService.LoginAsync(user);
+            return Ok(new
+            {
+                success = response.Success,
+                data = new
                 {
-                    success = true,
-                    data = new {
-                        token = success.Token,
-                        refreshToken = success.RefreshToken,
-                        expiresIn = success.ExpiresMinutes
-                    },
-                    info = "Login Successfull",
-                }) : 
-                BadRequest(new {
-                    success = false,
-                    message = "Login failed. Password or Username is incorrect" 
-                });
+                    token = response.Token,
+                    refreshToken = response.RefreshToken,
+                    expiresIn = response.ExpiresMinutes
+                },
+                info = response.Info,
+            });
         }
     }
 }

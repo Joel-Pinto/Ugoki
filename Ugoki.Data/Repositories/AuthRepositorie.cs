@@ -30,14 +30,18 @@ namespace Ugoki.Data.Repositories
             _userRepository = userRepository;
             _tokenGenService = tokenGenServices;
         }
-        public async Task<bool> RegisterAsync(UserRegisterDTO userRegisterDTO)
+        public async Task<RegistrationResponse> RegisterAsync(UserRegisterDTO userRegisterDTO)
         {
             await _unitOfWork.BeginTransactionAsync();
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userRegisterDTO.Username);
             var emailVerification = await _context.Users.FirstOrDefaultAsync(u => u.Email == userRegisterDTO.Email);
 
             if (user != null || emailVerification != null)
-                return false;
+                return new RegistrationResponse
+                {
+                    Success = false,
+                    Info = "Email is already in use."
+                };
 
             User newUser = new User
             {
@@ -58,13 +62,21 @@ namespace Ugoki.Data.Repositories
             {
                 await _unitOfWork.RollbackAsync();
                 _logger.LogError("There was an issue regestring the user {Username}: {Message} \n {StackTrace}", newUser.Username, ex.Message, ex.StackTrace);
-                return false;
+                return new RegistrationResponse
+                {
+                    Success = false,
+                    Info = "There was an issue creating your account, please try again later!"
+                };
             }
-
-            return true;
+            
+            return new RegistrationResponse
+            {
+                Success = true,
+                Info = "You're account was created successfully! Thank you for joining Ugoki!"
+            }; 
         }
 
-        public async Task<LoginResponse?> LoginAsync(UserLoginDTO userLoginDTO)
+        public async Task<LoginResponse> LoginAsync(UserLoginDTO userLoginDTO)
         {
             await _unitOfWork.BeginTransactionAsync();
 
@@ -74,8 +86,8 @@ namespace Ugoki.Data.Repositories
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userLoginDTO.Username);
 
                 if (user == null)
-                    return null;
-                
+                    return new LoginResponse(false, "There was na error with the inserted credentials. Either the user of email does not exist!");
+      
                 
                 RefreshToken? refreshToken = await _context.RefreshTokens
                     .Where(rt => rt.UserId == user.Id && rt.RevokedAt == null)
@@ -96,24 +108,19 @@ namespace Ugoki.Data.Repositories
                 }
 
                 if (!_helper.ValidatePassword(user, userLoginDTO.Password, user.PasswordHashed))
-                    return null;
+                    return new LoginResponse(false, "Invalid credentials");
 
                 var token = _tokenGenService.GenerateToken(user.Id, user.Username);
 
                 await _unitOfWork.CommitAsync();
 
-                return new LoginResponse
-                {
-                    Token = token,
-                    RefreshToken = refreshToken.Token,
-                    ExpiresMinutes = DateTime.UtcNow.Subtract(refreshToken.ExpiresAt).TotalSeconds
-                };
+                return new LoginResponse(true, "Login Successfull",token, refreshToken.Token, DateTime.UtcNow.Subtract(refreshToken.ExpiresAt).TotalSeconds);
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync();
                 _logger.LogError("There was an issue with the Login Auth method {Username}: {Message} \n {StackTrace}", userLoginDTO.Username, ex.Message, ex.StackTrace);
-                return null;
+                return new LoginResponse(false, "There was an issue with the login, please try again later!");
             }
         }
     }

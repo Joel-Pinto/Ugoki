@@ -4,5 +4,5 @@ import type { LoginResponse } from "./auth";
 export interface ApiResponse {
     success: boolean;
     content: LoginResponse;
-    error?: string;
+    info: string;
 }

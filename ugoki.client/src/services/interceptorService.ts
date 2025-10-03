@@ -5,11 +5,11 @@ import { getAccessToken } from "./authService";
 
 api.interceptors.request.use(
   (config) => {
-    console.log(config);
-//    const token = getAccessToken();
-//    if (token) {
-//      config.headers.Authorization = `Bearer ${token}`;
-//    }
+    const token = getAccessToken();
+    if(token)
+    {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => Promise.reject(error)

@@ -19,13 +19,14 @@ namespace Ugoki.Server.Controllers
         [HttpGet("list_users")]
         public IActionResult GetUsers()
         {
-            return Ok();
+            return Ok("For now this endpoint serves only to test JWT authentication");
         }
 
+        [Authorize]
         [HttpPost("delete_user")]
         public IActionResult DeleteUser([FromBody] User user)
         {
-            return Ok();
+            return Ok("This endpoint is not yet built");
         }
     }
 }

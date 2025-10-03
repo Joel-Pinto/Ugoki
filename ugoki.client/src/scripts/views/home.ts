@@ -1,6 +1,6 @@
 // scripts/home/useHome.ts
 import { ref, onMounted } from "vue";
-import {api, apiRegister} from "@/services/apiService";
+import { api } from "@/services/apiService";
 
 export function home() {
     const users = ref<any[]>([]);
