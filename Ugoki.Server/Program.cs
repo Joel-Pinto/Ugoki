@@ -1,55 +1,42 @@
 
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
-using Ugoki.Application.Common;
-using Ugoki.Application.Interfaces;
-using Ugoki.Application.Services;
+
 using Ugoki.Data;
+using Ugoki.Data.Models;
 using Ugoki.Data.Repositories;
+using Ugoki.Application.Interfaces;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString =
+    builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? throw new InvalidOperationException("Connection string"
+        + "'DefaultConnection' not found.");
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
-// In here we add Authorization and Authentication services to the application
-builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.RequireHttpsMetadata = false;
-        options.SaveToken = true;
-        options.TokenValidationParameters = new TokenValidationParameters()
-        {
-            ValidAudience = builder.Configuration["AppSettings:Audience"],
-            ValidIssuer = builder.Configuration["AppSettings:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Token"] ?? string.Empty)),
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-        };
-    });
-
-builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("AppSettings")); 
-Console.WriteLine(builder.Configuration["AppSettings:Token"]);
-
-// Dependency Injections have a lifecycle of an HTTP request, it's also scoped for that same request. It does not share with other requests.
-builder.Services.AddScoped<IAuthService, AuthRepositorie>();            // Dependency Injection for the Auth Service
-builder.Services.AddScoped<IUserRepository, UserRepository>();          // Dependency Injection for the User Repository
-builder.Services.AddScoped<ITokenGenServices, TokenGenerationService>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();                  // Dependency Injection for the Unit of work, which takes care of making sure the saves to the DB happen securely and data is not compromised.
-builder.Services.AddScoped<UserService>();                              // Dependency Injection for the User 
-builder.Services.AddScoped<AuthRepositorie>();
-
 builder.Services.AddDbContext<UgokiDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-// Activate CORS because the request is coming from a different PORT, the port from which VITE is being ran
+// In here we add Authorization and Authentication services to the application
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
+
+builder.Services.AddIdentityCore<User>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<UgokiDbContext>()
+    .AddApiEndpoints()
+    .AddDefaultTokenProviders();
+
+// Dependency Injections have a lifecycle of an HTTP request, it's also scoped for that same request. It does not share with other requests.
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();  // Dependency Injection  
+//builder.Services.AddScoped<UserService>();              // Dependency Injection  
+
+
+// Activate CORS (mecanismo de segurança do browser, para pedidos entre diferentes portas) because the request is coming from a different PORT, the port from which VITE is being ran
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowClient",
@@ -58,11 +45,14 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod()); // This last option is not good, find a better way to solve the issue
 });
 
-// Add services to the container.
+// Add services to the container. 
 builder.Services.AddControllers();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+// Add the default pages?
+builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 
@@ -85,6 +75,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapIdentityApi<User>();
 
 app.MapFallbackToFile("/index.html");
 

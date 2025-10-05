@@ -1,10 +1,10 @@
 // views/Register.ts
 import { ref } from "vue";
-import { Navigation } from "@/scripts/navigation/navigation";
+import { useNavigation } from "@/scripts/navigation/navigation";
 import { RegisterAsync } from "@/services/authService";
 import { RegisterViewHidration } from "../ViewHidration/authenticationHidration";
 
-import type { ApiResponse, UserRegisterDTO } from "@/types";
+import type { UserRegisterDTO } from "@/types";
 
 import loginImage from "../../assets/images/login/login_background.png";
 
@@ -57,8 +57,8 @@ export class Register {
                 return;
             }
 
-            const navigation = new Navigation("register");
-            navigation.navigateTo("login");
+            const { navigateTo } = useNavigation("Register");
+            navigateTo("Login");
         } catch (err) {
             console.error("Registration failed", err);
             return;

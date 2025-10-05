@@ -1,14 +1,7 @@
-﻿namespace Ugoki.Data.Models
-{
-    public class User
-    {
-        public Guid Id { get; set; } = Guid.NewGuid();
+﻿using Microsoft.AspNetCore.Identity;
 
-        public string Username { get; set; } = "";
-        public string Email { get; set; } = "";
-        public string PasswordHashed { get; set; } = "";
-        
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    }
+namespace Ugoki.Data.Models;
+
+public class User : IdentityUser
+{
 }

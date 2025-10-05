@@ -1,14 +1,14 @@
-﻿namespace Ugoki.Domain.Entities
+﻿namespace Ugoki.Domain.Entities;
+
+public class User
 {
-    public class User
-    {
-        public Guid Id { get; set; } = Guid.NewGuid();
-
-        public string Username { get; set; } = String.Empty;
-        public string PasswordHashed { get; set; } = String.Empty;
-        public string Email { get; set; } = String.Empty;
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    }
+    public string Id { get; set; } = string.Empty;
+    public string Email { get; set; } = String.Empty;
+    public string NormaizedEmail { get; set; } = String.Empty;
+    public string Username { get; set; } = String.Empty;
+    public string NormalizedUsername { get; set; } = String.Empty;
+    public string PasswordHashed { get; set; } = String.Empty;
+    public bool isEmailConfirmed { get; set; }
+    public bool isTwoFactorEnabled { get; set; }
+    public int AccessFailedCount { get; set; }
 }

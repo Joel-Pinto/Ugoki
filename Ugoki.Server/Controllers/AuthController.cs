@@ -19,13 +19,25 @@ namespace Ugoki.Server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDTO user)
         {
-            var response = await _authService.RegisterAsync(user);
-            return Ok(new
+            try
             {
-                success = response.Success,
-                data = new { },
-                info = response.Info
-            }); 
+                await _authService.RegisterAsync(user);
+                return Ok(new
+                {
+                    success = true,
+                    data = new { },
+                    info = "User Registered with Success!" 
+                });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new
+                {
+                    success = false,
+                    data = new { },
+                    info = "An error occurred while trying to register the user: " + ex.Message
+                });
+            }
         }
 
         [AllowAnonymous]
