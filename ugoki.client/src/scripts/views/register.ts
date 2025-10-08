@@ -1,10 +1,12 @@
 // views/Register.ts
 import { ref } from "vue";
-import { useNavigation } from "@/scripts/navigation/navigation";
 import { RegisterAsync } from "@/services/authService";
 import { RegisterViewHidration } from "../ViewHidration/authenticationHidration";
 
+import {router } from "@/scripts/router";
+
 import type { UserRegisterDTO } from "@/types";
+import type { ErrorHandler } from "@/services/errorHandler"; // type-only
 
 import loginImage from "../../assets/images/login/login_background.png";
 
@@ -31,13 +33,13 @@ export class Register {
             this.repeatPasswordFieldType.value === "password" ? "text" : "password";
     }
 
-    async formSubmitted(): Promise<undefined> {
+    async formSubmitted(): Promise<void> {
         try {
-            if (this.form.value.password !== this.form.value.confirmationPassword || 
-                this.form.value.email !== this.form.value.confirmationEmail) {
-                
-                this.errorMessage.value = "The passwords inserted do not match";
-
+            if (
+                this.form.value.password !== this.form.value.confirmationPassword ||
+                this.form.value.email !== this.form.value.confirmationEmail
+            ) {
+                this.errorMessage.value = "The passwords do not match!"
                 return;
             }
 
@@ -48,20 +50,26 @@ export class Register {
             };
 
             this.errorMessage.value = "";
+
             const registrationResult = await RegisterAsync(userData);
 
-            if(!registrationResult.success) {
-                // TODO: this was an error, we have the message in registrationResult.error
-                // See how to handle it and show it to the user
-                this.errorMessage.value = registrationResult.info;
+            if (!registrationResult.success) {
+                const error = registrationResult as ErrorHandler;
+
+                if (error.details && error.details.length > 0) {
+                    this.errorMessage.value = error.details
+                        .map((d) => `• ${d.description}`)
+                        .join("<br/>");
+                } else {
+                    this.errorMessage.value = error.message;
+                }
                 return;
             }
-
-            const { navigateTo } = useNavigation("Register");
-            navigateTo("Login");
+            this.errorMessage.value = "Login Successfull";
+            router.push({ name: "Login" });
         } catch (err) {
             console.error("Registration failed", err);
-            return;
+            this.errorMessage.value = "Something went wrong. Please try again later.";
         }
     }
 }

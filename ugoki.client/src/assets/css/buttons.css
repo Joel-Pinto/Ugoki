@@ -1,0 +1,20 @@
+li.selector.active {
+    background-color: var(--color-button-nav);
+}
+li.selector:hover {
+    background-color: var(--color-button-nav);
+    transition: 300ms ease-in-out;
+    
+}
+li.selector:hover a.btn{
+    color: var(--color-text-hover);
+    transition: 300ms ease-in-out;
+}
+
+
+a.btn {
+    color: var(--color-button-nav);
+}
+a.btn.active {
+    color: var(--color-text-hover); 
+}

@@ -1,11 +1,11 @@
 :root {
   /* Brand Colors (inspired by your dashboard UI) */
-  --color-primary: #4e60ff;   /* Indigo/Blue */
-  --color-secondary: #ffb200; /* Accent Orange */
-  --color-success: #2ecc71;   /* Green */
-  --color-danger: #e74c3c;    /* Red */
-  --color-warning: #f39c12;   /* Yellow */
-  --color-info: #3498db;      /* Light Blue */
+  --color-primary: #fefffe;   /* White */
+  --color-secondary: #ece3f2; /* Soft pink */
+  --color-success: #86ccac;   /* Green */
+  --color-danger: #fa5060;    /* Red */
+  --color-warning: #793bee;   /* Yellow */
+  --color-info: #b2bcfc;      /* Light Blue */
 
   /* Neutral Palette */
   --color-white: #ffffff;
@@ -16,20 +16,21 @@
   --color-black-soft: #222222;
   --color-black-mute: #282828;
 
+  --color-button-nav: #324154;
+
   /* Backgrounds */
-  --color-background: var(--color-white);
-  --color-background-soft: var(--color-white-soft);
-  --color-background-mute: var(--color-white-mute);
+  --color-background: var(--color-secondary);
 
   /* Borders */
-  --color-border: #e0e6ed;
-  --color-border-hover: #cdd5df;
+  --color-border: #f3effe;
+  --color-border-hover: #444489;
 
   /* Text Colors */
-  --color-text-heading: #1a1d1f;
-  --color-text-body: #4b4f52;
-  --color-text-muted: #6e7377;
-  --color-text-light: #9da3a8;
+  --color-text-heading: #1a2031;
+  --color-text-body: #7f8693;
+  --color-text-muted: #a4a8ae;
+  --color-text-light: #90979e;
+  --color-text-hover: #fafdfe;
 
   /* Font Sizes */
   --font-size-xs: 0.75rem;   /* 12px */
@@ -72,7 +73,6 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
   font-weight: normal;
 }
 
@@ -86,7 +86,6 @@ h2 {
 
 body {
   --sb-width: 5rem;
-
   min-height: 100vh;
   background: var(--color-background);
   line-height: 1.6;
@@ -99,6 +98,7 @@ body {
 
 body.sb-expanded {
   --sb-width: 12.5rem;
+  background: linear-gradient(to right, #f2f4e1, #e4def9);
 }
 
 /* Hide the eye icon (password reveal) in Edge/Chromium */

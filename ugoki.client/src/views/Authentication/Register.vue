@@ -71,10 +71,8 @@ const hidration = register.hidration;
 
             <button class="btn btn-signin" type="submit">{{ hidration.signUp }}</button>
 
-            <div class="error-box">
-              <div>
-                <p>{{ register.errorMessage }}</p>
-              </div>
+            <div v-if="!register.success" class="error-box">
+                <p v-html="register.errorMessage.value"></p>
             </div>
           </form>
         </div>

@@ -4,6 +4,7 @@ import { LoginViewHidration } from "../ViewHidration/authenticationHidration";
 import loginImage from "../../assets/images/login/login_background.png";
 import { LoginAsync } from "@/services/authService";
 import type { UserLoginDTO } from "@/types";
+import { router } from "../router";
 
 export class Login {
     hidration = { ...LoginViewHidration() };
@@ -32,6 +33,10 @@ export class Login {
                 email: this.form.value.email,
             };
             const result = await LoginAsync(userData);
+
+            if (result.success) {
+                router.push({ name: "Home" });
+            }
         } catch (err) {
             console.error("Login failed", err);
         }

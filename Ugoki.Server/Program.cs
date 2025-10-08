@@ -7,6 +7,7 @@ using Ugoki.Data;
 using Ugoki.Data.Models;
 using Ugoki.Data.Repositories;
 using Ugoki.Application.Interfaces;
+using Ugoki.Application.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,14 +27,16 @@ builder.Services.AddDbContext<UgokiDbContext>(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
 
-builder.Services.AddIdentityCore<User>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<UgokiDbContext>()
     .AddApiEndpoints()
     .AddDefaultTokenProviders();
 
 // Dependency Injections have a lifecycle of an HTTP request, it's also scoped for that same request. It does not share with other requests.
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();  // Dependency Injection  
-//builder.Services.AddScoped<UserService>();              // Dependency Injection  
+builder.Services.AddScoped<IUserService, UserService>();  // Dependency Injection  
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<UserService>();              // Dependency Injection  
 
 
 // Activate CORS (mecanismo de segurança do browser, para pedidos entre diferentes portas) because the request is coming from a different PORT, the port from which VITE is being ran
@@ -76,7 +79,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapIdentityApi<User>();
+app.MapIdentityApi<IdentityUser>();
 
 app.MapFallbackToFile("/index.html");
 

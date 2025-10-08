@@ -9,10 +9,8 @@ namespace Ugoki.Server.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IAuthService _authService;
-        public UserController(IAuthService authService)
+        public UserController()
         {
-            _authService = authService;
         }
 
         [Authorize]

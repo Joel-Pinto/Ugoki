@@ -2,6 +2,6 @@
 
 namespace Ugoki.Data.Models;
 
-public class User : IdentityUser
+public class AspNetUsers : IdentityUser
 {
 }

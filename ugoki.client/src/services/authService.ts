@@ -1,32 +1,22 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { api } from "@/services/apiService";
-import type {  ApiResponse, UserLoginDTO, UserRegisterDTO } from "@/types";
-
-export function setAccessToken(token: string, expiresIn: number) {
-    localStorage.setItem("jwt", token);
-    localStorage.setItem("jwt_expiresIn", expiresIn.toString());
-}
-
-export function getAccessToken(): string | null {
-    return localStorage.getItem("jwt");
-}
-
-export function clearAccessToken() {
-    localStorage.removeItem("jwt");
-    localStorage.removeItem("jwt_expiresIn");
-}
+import { handleError } from "@/services/errorHandler"; // runtime import
+import type { ApiResponse, UserLoginDTO, UserRegisterDTO } from "@/types"; // type-only
+import type { ErrorHandler } from "@/services/errorHandler"; // type-only
 
 export async function LoginAsync(UserLoginDTO: UserLoginDTO): Promise<ApiResponse> {
     const result = await api.post<ApiResponse>("/Auth/login", UserLoginDTO);
-
-    if (result.data.success) {
-        setAccessToken(result.data.content.token, result.data.content.expiresIn);
-        // Redirect to the front page
-    }
     return result.data;
 }
 
-export async function RegisterAsync(UserRegisterDTO: UserRegisterDTO) : Promise<ApiResponse>  
-{
-  const result = await api.post<ApiResponse>("/Auth/register", UserRegisterDTO);
-  return result.data;
+export async function RegisterAsync(
+    userData: UserRegisterDTO
+): Promise<ApiResponse | ErrorHandler> {
+    try {
+        const result = await api.post<ApiResponse>("/Auth/register", userData);
+        return result.data;
+    } catch (exception) {
+        return handleError(exception);
+    }
 }
+

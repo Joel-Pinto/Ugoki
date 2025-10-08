@@ -1,6 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <Compile Remove="Services\LoggerService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Services\LoggerService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Ugoki.Domain\Ugoki.Domain.csproj" />
   </ItemGroup>
 

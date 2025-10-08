@@ -101,7 +101,7 @@ public class UserRepository : IUserRepository
     }
     public async Task CreateNewUser(Ugoki.Domain.Entities.User user)
     {
-        var newUser = new User
+        var newUser = new AspNetUsers
         {
             Id = user.Id,
             UserName = user.Username,

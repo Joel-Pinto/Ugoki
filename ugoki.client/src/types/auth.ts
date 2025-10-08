@@ -7,12 +7,8 @@ export interface LoginResponse {
 
 export interface RegisterResponse {
     success: string;
-    content?: Object;
+    content?: object;
     info: string;
-}
-
-export interface RefreshTokenResponse {
-    token: string;
 }
 
 export interface AuthState {
