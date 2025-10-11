@@ -2,7 +2,7 @@
 <style src="@/assets/css/buttons.css" scoped></style>
 <template>
     <!-- navbar wrapper-->
-    <nav class="flex align-center h-[3.675rem] p-2 mb-4 rounded-full bg-[var(--color-primary)] gap-4 border border-black shadow-lg">
+    <nav class="flex align-center h-[3.675rem] p-2 mb-4 rounded-full bg-[var(--color-primary)] gap-4 shadow-lg">
         <!-- Here will be the name plus logo or just logo-->
         <a href="#" class="flex self-center ml-2 mr-[5rem]">
            <img src="@/assets/images/logo/Ugoki.png" alt="Ugoki Logo" class="h-14 mr-2"/> 
