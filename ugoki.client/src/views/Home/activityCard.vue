@@ -40,7 +40,7 @@
             <div class="p-8">
                 <div class="flex">
                     <p class="stats flex gap-3 items-center">
-                        <ClockNoArrow />
+                        <IconDumbell />
                         8260
                     </p>
                     <p class="subStats ml-1 self-end mb-2">/ Kgs lifted</p>
@@ -56,7 +56,7 @@
             <div class="p-8">
                 <div class="flex">
                     <p class="stats flex gap-3 items-center">
-                        <ClockNoArrow />
+                        <IconStrongArm />
                         4
                     </p>
                     <p class="subStats ml-1 self-end mb-2">/ 6 Workouts Done</p>
@@ -72,7 +72,7 @@
             <div class="p-8">
                 <div class="flex">
                     <p class="stats flex gap-3 items-center">
-                        <ClockNoArrow />
+                        <IconLightning />
                         4
                     </p>
                     <p class="subStats ml-1 self-end mb-2">/ Day Streak</p>
@@ -90,6 +90,9 @@
 
 <script setup lang="ts">
     import ClockNoArrow from '@/components/icons/ClockNoArrow.vue';
+    import IconDumbell from '@/components/icons/IconDumbell.vue';
+    import IconStrongArm from '@/components/icons/IconStrongArm.vue';
+    import IconLightning from '@/components/icons/IconLightning.vue';
     import { Line } from 'vue-chartjs'
     import {chartData, chartOptions} from '@/scripts/charts/lineChart.ts';
 </script>

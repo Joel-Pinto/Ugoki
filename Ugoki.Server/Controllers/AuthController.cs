@@ -91,8 +91,8 @@ public class AuthController : ControllerBase
                 //TODO: Go to the user service to lockout logic
                 throw new Exception("Failed to many loggin attempts, you're account has been locked off");
             }
-
-            var result = await _signInManager.PasswordSignInAsync(user.UserName, userDetails.Password, isPersistent: false, lockoutOnFailure: false);
+            
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, userDetails.Password, isPersistent: true, lockoutOnFailure: false);
             
             if (!result.Succeeded)
             {

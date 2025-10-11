@@ -27,6 +27,22 @@ builder.Services.AddDbContext<UgokiDbContext>(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Login";
+    options.LogoutPath = "/Logout";
+    options.AccessDeniedPath = "/AccessDenied";
+
+    options.Cookie.Name = ".Ugoki.App";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // HTTPS only
+    options.Cookie.IsEssential = true;
+
+    options.ExpireTimeSpan = TimeSpan.FromDays(30);
+    options.SlidingExpiration = true; // renovate cookie if user is active
+});
+
 builder.Services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<UgokiDbContext>()
     .AddApiEndpoints()
@@ -45,7 +61,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowClient",
             policy => policy.WithOrigins("https://localhost:64749") // Vue dev server
                         .AllowAnyHeader()
-                        .AllowAnyMethod()); // This last option is not good, find a better way to solve the issue
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+    );
 });
 
 // Add services to the container. 
